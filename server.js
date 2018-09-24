@@ -1,6 +1,11 @@
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+
+// Middleware
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
 // Routes
 const users = require('./users/routes')
