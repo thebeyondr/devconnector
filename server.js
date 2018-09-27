@@ -2,10 +2,12 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const passport = require('passport')
 
-// Middleware
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+app.use(passport.initialize())
+require('./config/passport')(passport)
 
 // Routes
 const users = require('./users/routes')
@@ -25,7 +27,7 @@ app.get('/', (req, res) => res.status(200).json('Working'))
 
 // Use Routes
 app.use('/api/users', users)
-app.use('/api/profiles', profiles)
+app.use('/api/profile', profiles)
 app.use('/api/posts', posts)
 
 const PORT = process.env.PORT || 3000
