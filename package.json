@@ -21,7 +21,6 @@
   },
   "devDependencies": {
     "@hint/configuration-development": "^1.1.1",
-    "hint": "^3.4.3",
     "nodemon": "^1.18.4"
   }
 }

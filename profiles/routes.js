@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
 const passport = require('passport')
 
 // Models
@@ -8,16 +7,9 @@ const Profile = require('./model')
 const User = require('../users/model')
 
 // Validators
-const validateProfileInputs = require('./validation/profile')
-const validateExperienceInput = require('./validation/experience')
-const validateEducationInput = require('./validation/education')
-
-// @route   GET /api/profiles/test
-// @desc    Test route for profiles
-// @access  Public
-router.get('/test', (req, res) =>
-  res.status(200).json({msg: 'Profiles route working!'})
-)
+const validateProfileInputs = require('./validators/profile')
+const validateExperienceInput = require('./validators/experience')
+const validateEducationInput = require('./validators/education')
 
 // @route   GET /api/profile/
 // @desc    Get curent user profile
@@ -150,7 +142,51 @@ router.delete(
       .then(profile => {
         // Remove experience
         profile.experience.remove({_id: req.params.expId})
+        // Save profile
         profile.save().then(profile => res.status(200).json(profile))
+      })
+      .catch(err => {
+        if (err) {
+          res.status(404).json(err)
+        }
+      })
+  }
+)
+
+// @route   DELETE /api/profile/education/:eduId
+// @desc    Remove an education from a profile
+// @access  Private
+router.delete(
+  '/education/:eduId',
+  passport.authenticate('jwt', {session: false}),
+  (req, res) => {
+    Profile.findOne({user: req.user.id})
+      .then(profile => {
+        // Remove education
+        profile.education.remove({_id: req.params.eduId})
+        // Save profile
+        profile.save().then(profile => res.status(200).json(profile))
+      })
+      .catch(err => {
+        if (err) {
+          res.status(404).json(err)
+        }
+      })
+  }
+)
+
+// @route   DELETE /api/profile/
+// @desc    Remove a profile and user
+// @access  Private
+router.delete(
+  '/',
+  passport.authenticate('jwt', {session: false}),
+  (req, res) => {
+    Profile.findOneAndDelete({user: req.user.id})
+      .then(() => {
+        User.findOneAndDelete({_id: req.user.id}).then(() =>
+          res.json({success: true})
+        )
       })
       .catch(err => {
         if (err) {
