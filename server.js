@@ -3,10 +3,12 @@ const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
+const cors = require('cors')
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(passport.initialize())
+app.use(cors())
 require('./config/passport')(passport)
 
 // Routes
@@ -30,7 +32,7 @@ app.use('/api/users', users)
 app.use('/api/profile', profiles)
 app.use('/api/posts', posts)
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
   console.log(`> Listening on port ${PORT}`)
 })

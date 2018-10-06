@@ -28,42 +28,43 @@ router.post('/register', (req, res) => {
   // Check validation
   if (!isValid) {
     res.status(400).json(errors)
-  }
-  User.findOne({email: req.body.email}).then(user => {
-    if (user) {
-      errors.email = 'Email already exists'
-      return res.status(400).json(errors)
-    } else {
-      const {name, email, password} = req.body
-      const avatar = gravatar.url(email, {
-        s: '200', // Size
-        r: 'pg', // Rating
-        d: 'mm' // Default
-      })
-      const newUser = new User({
-        name,
-        email,
-        password,
-        avatar
-      })
-      // Create password, update user and save to database
-      bcrypt.genSalt(10, (err, salt) => {
-        if (err) throw new Error()
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) console.log(err)
-          newUser.password = hash
-          newUser
-            .save()
-            .then(user => {
-              return res.status(201).json(user)
-            })
-            .catch(err => {
-              console.log(err)
-            })
+  } else {
+    User.findOne({email: req.body.email}).then(user => {
+      if (user) {
+        errors.email = 'Email already exists'
+        return res.status(400).json(errors)
+      } else {
+        const {name, email, password} = req.body
+        const avatar = gravatar.url(email, {
+          s: '200', // Size
+          r: 'pg', // Rating
+          d: 'mm' // Default
         })
-      })
-    }
-  })
+        const newUser = new User({
+          name,
+          email,
+          password,
+          avatar
+        })
+        // Create password, update user and save to database
+        bcrypt.genSalt(10, (err, salt) => {
+          if (err) throw new Error()
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) console.log(err)
+            newUser.password = hash
+            newUser
+              .save()
+              .then(user => {
+                return res.status(201).json(user)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          })
+        })
+      }
+    })
+  }
 })
 
 // @route   POST /api/users/login
@@ -74,12 +75,11 @@ router.post('/login', (req, res) => {
   const {errors, isValid} = validateLoginInput(req.body)
   // Check validation
   if (!isValid) {
-    res.status(400).json(errors)
+    return res.status(400).json(errors)
   }
-  const loginError = "Something isn't right. Check your info?"
   User.findOne({email}).then(user => {
     if (!user) {
-      errors.email = loginError
+      errors.email = "Something isn't right. Check your info?"
       return res.status(400).json(errors)
     }
     // Check password
@@ -97,9 +97,8 @@ router.post('/login', (req, res) => {
             })
           }
         })
-        // return res.status(200).json({loginSuccess: 'Signed In!'})
       } else {
-        errors.password = loginError
+        errors.password = "Something isn't right. Check your info?"
         return res.status(400).json(errors)
       }
     })
