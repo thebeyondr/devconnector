@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import { logoutUser } from './../../actions/authActions'
+import { clearCurrentProfile } from './../../actions/profileActions'
 /**
  *Displays navigation with login and registration functionality
  *
@@ -12,8 +13,8 @@ import { logoutUser } from './../../actions/authActions'
 class Navbar extends Component {
   onLogoutClick = event => {
     event.preventDefault()
+    this.props.clearCurrentProfile()
     this.props.logoutUser()
-    window.location.href= '/login'
   }
   render () {
     const { isAuthenticated, user } = this.props.auth
@@ -38,7 +39,13 @@ class Navbar extends Component {
             title='Logout'
             onClick={this.onLogoutClick.bind(this)}
           >
-            <img className='rounded-circle' src={user.avatar} alt={user.name} style={{ width: '25px', marginRight: '5px' }} title='You must have a Gravatar connected to your email to display an image' />
+            <img
+              className='rounded-circle'
+              src={user.avatar}
+              alt={user.name}
+              style={{ width: '25px', marginRight: '5px' }}
+              title='You must have a Gravatar connected to your email to display an image'
+            />
             Logout
           </a>
         </li>
@@ -81,4 +88,6 @@ Navbar.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth
 })
-export default connect(mapStateToProps, { logoutUser })(Navbar)
+export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(
+  Navbar
+)

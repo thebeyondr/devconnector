@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
-import {Redirect} from 'react-router'
-import {PropTypes} from 'prop-types'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router'
+import { PropTypes } from 'prop-types'
+import { connect } from 'react-redux'
 /**
  *Has lead and calls to action
  *
@@ -12,7 +12,7 @@ import {connect} from 'react-redux'
 class Landing extends Component {
   render () {
     if (this.props.auth.isAuthenticated) {
-      return <Redirect to="/dashboard" />;
+      return <Redirect to='/dashboard' />
     }
     return (
       <div className='landing'>
