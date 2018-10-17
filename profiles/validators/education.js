@@ -3,7 +3,7 @@ const Validator = require('validator')
 
 module.exports = function validateEducationInput (data) {
   const errors = {}
-  let {school, degree, fieldofstudy, from} = data
+  let { school, degree, fieldofstudy, from } = data
   school = !isEmpty(school) ? school : ''
   degree = !isEmpty(degree) ? degree : ''
   fieldofstudy = !isEmpty(fieldofstudy) ? fieldofstudy : ''
@@ -14,7 +14,7 @@ module.exports = function validateEducationInput (data) {
   }
 
   if (Validator.isEmpty(degree)) {
-    errors.degree = 'degree is required'
+    errors.degree = 'Degree is required'
   }
 
   if (Validator.isEmpty(fieldofstudy)) {
