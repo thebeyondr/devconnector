@@ -9,7 +9,7 @@ class Experience extends Component {
     this.props.deleteExperience(id)
   }
   render () {
-    const experience = this.props.experience.length > 0
+    const experience = this.props.experience.length
       ? this.props.experience.map(exp => {
         return (
           <tr key={exp._id}>
