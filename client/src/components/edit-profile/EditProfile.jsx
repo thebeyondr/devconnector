@@ -1,14 +1,13 @@
+import { PropTypes } from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { PropTypes } from 'prop-types'
-import TextFieldGroup from './../common/TextFieldGroup'
-import SelectListGroup from './../common/SelectListGroup'
-import TextAreaGroup from './../common/TextAreaGroup'
-import InputGroup from './../common/InputGroup'
-import { createProfile } from '../../actions/profileActions'
 import { Link, withRouter } from 'react-router-dom'
-import { getCurrentProfile } from './../../actions/profileActions'
-import isEmpty from './../../validations/is-empty'
+import { createProfile, getCurrentProfile } from '../../actions/profileActions'
+import isEmpty from '../../validations/is-empty'
+import InputGroup from '../common/InputGroup'
+import SelectListGroup from '../common/SelectListGroup'
+import TextAreaGroup from '../common/TextAreaGroup'
+import TextFieldGroup from '../common/TextFieldGroup'
 
 class EditProfile extends Component {
   constructor (props) {

@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
-import {Link, withRouter} from 'react-router-dom'
+import React, { Component } from 'react'
+import { Link, withRouter } from 'react-router-dom'
 import TextFieldGroup from './../common/TextFieldGroup'
 import TextAreaGroup from './../common/TextAreaGroup'
-import {connect} from 'react-redux'
-import {PropTypes} from 'prop-types'
-import {addExperience} from '../../actions/profileActions'
+import { connect } from 'react-redux'
+import { PropTypes } from 'prop-types'
+import { addExperience } from '../../actions/profileActions'
 
 /**
  * Add experience form
@@ -29,11 +29,11 @@ class AddExperience extends Component {
   }
   componentDidUpdate (prevProps) {
     if (this.props.errors !== prevProps.errors) {
-      this.setState({errors: this.props.errors})
+      this.setState({ errors: this.props.errors })
     }
   }
   handleChange = e => {
-    this.setState({[e.target.name]: e.target.value})
+    this.setState({ [e.target.name]: e.target.value })
   }
   handleSubmit = e => {
     e.preventDefault()
@@ -56,7 +56,7 @@ class AddExperience extends Component {
     }))
   }
   render () {
-    const {errors} = this.state
+    const { errors } = this.state
     return (
       <div>
         <div className='add-experience'>
@@ -158,6 +158,6 @@ const mapStateToprops = state => ({
   errors: state.errors
 })
 
-export default connect(mapStateToprops, {addExperience})(
+export default connect(mapStateToprops, { addExperience })(
   withRouter(AddExperience)
 )

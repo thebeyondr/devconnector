@@ -40,7 +40,9 @@ class Experience extends Component {
         )
       })
       : <tr>
-          Your experiences will appear here. Try adding some from the options above.
+        <td>
+            Your experiences will appear here. Try adding some from the options above.
+        </td>
       </tr>
     return (
       <div>

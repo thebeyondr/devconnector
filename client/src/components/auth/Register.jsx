@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import { withRouter } from 'react-router-dom'
-import { registerUser } from './../../actions/authActions'
-import TextFieldGroup from './../common/TextFieldGroup'
+import { registerUser } from '../../actions/authActions'
+import TextFieldGroup from '../common/TextFieldGroup'
 
 class Register extends Component {
   constructor (props) {

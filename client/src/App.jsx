@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.css'
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
@@ -18,6 +18,10 @@ import CreateProfile from './components/create-profile/CreateProfile'
 import EditProfile from './components/edit-profile/EditProfile'
 import AddExperience from './components/add-credentials/AddExperience'
 import AddEducation from './components/add-credentials/AddEducation'
+import Profiles from './components/profiles/Profiles'
+import Profile from './components/profile/Profile'
+import NotFound from './components/NotFound'
+import Posts from './components/posts/Post/Posts'
 
 if (window.localStorage.jwtToken) {
   const { jwtToken } = window.localStorage
@@ -52,28 +56,33 @@ class App extends Component {
             <div className='container'>
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
-              <PrivateRoute exact path='/dashboard' component={Dashboard} />
-              <PrivateRoute
-                exact
-                path='/create-profile'
-                component={CreateProfile}
-              />
-              <PrivateRoute
-                exact
-                path='/edit-profile'
-                component={EditProfile}
-              />
-              <PrivateRoute
-                exact
-                path='/add-experience'
-                component={AddExperience}
-              />
-              <PrivateRoute
-                exact
-                path='/add-education'
-                component={AddEducation}
-              />
-
+              <Switch>
+                <PrivateRoute exact path='/dashboard' component={Dashboard} />
+                <PrivateRoute
+                  exact
+                  path='/create-profile'
+                  component={CreateProfile}
+                />
+                <PrivateRoute
+                  exact
+                  path='/edit-profile'
+                  component={EditProfile}
+                />
+                <PrivateRoute
+                  exact
+                  path='/add-experience'
+                  component={AddExperience}
+                />
+                <PrivateRoute
+                  exact
+                  path='/add-education'
+                  component={AddEducation}
+                />
+                <PrivateRoute exact path='/feed' component={Posts} />
+              </Switch>
+              <Route exact path='/developers' component={Profiles} />
+              <Route exact path='/profile/:handle' component={Profile} />
+              <Route exact path='/not-found' component={NotFound} />
             </div>
             <Footer />
           </div>

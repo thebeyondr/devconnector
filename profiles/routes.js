@@ -11,12 +11,51 @@ const validateProfileInputs = require('./validators/profile')
 const validateExperienceInput = require('./validators/experience')
 const validateEducationInput = require('./validators/education')
 
-// @route   GET /api/profile/
-// @desc    Get curent user profile
-// @access  Private
-router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+// @route   GET /api/profiles/
+// @desc    Get all profiles
+// @access  Public
+router.get('/', (req, res) => {
   const errors = {}
-  Profile.findOne({ user: req.user.id })
+  Profile.find()
+    .populate('user', ['name', 'avatar'])
+    .then(profiles => {
+      if (!profiles) {
+        errors.noprofiles = 'Could not find any profiles'
+        return res.status(400).json(errors)
+      }
+      res.status(200).json(profiles)
+    })
+    .catch(err => res.status(400).json(err))
+})
+
+// @route   GET /api/profiles/current
+// @desc    Get current user profile
+// @access  Private
+router.get(
+  '/current',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const errors = {}
+    Profile.findOne({ user: req.user.id })
+      .populate('user', ['name', 'avatar'])
+      .then(profile => {
+        if (!profile) {
+          errors.noprofile = 'Could not find profile'
+          return res.status(400).json(errors)
+        }
+        res.status(200).json(profile)
+      })
+      .catch(err => res.status(400).json(err))
+  }
+)
+
+// @route   GET /api/profiles/handle/:handle
+// @desc    Get current user profile
+// @access  Public
+router.get('/handle/:handle', (req, res) => {
+  const errors = {}
+  Profile.findOne({ handle: req.params.handle })
+    .populate('user', ['name', 'avatar'])
     .then(profile => {
       if (!profile) {
         errors.noprofile = 'Could not find profile'
@@ -27,7 +66,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
     .catch(err => res.status(400).json(err))
 })
 
-// @route   POST /api/profile/
+// @route   POST /api/profiles/
 // @desc    Create user profile
 // @access  Private
 router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -71,7 +110,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
   })
 })
 
-// @route   POST /api/profile/experience
+// @route   POST /api/profiles/experience
 // @desc    Add experience to profile
 // @access  Private
 router.post(
@@ -101,7 +140,7 @@ router.post(
   }
 )
 
-// @route   POST /api/profile/education
+// @route   POST /api/profiles/education
 // @desc    Add education to profile
 // @access  Private
 router.post(
@@ -131,7 +170,7 @@ router.post(
   }
 )
 
-// @route   DELETE /api/profile/experience/:expId
+// @route   DELETE /api/profiles/experience/:expId
 // @desc    Remove an experience from a profile
 // @access  Private
 router.delete(
@@ -153,7 +192,7 @@ router.delete(
   }
 )
 
-// @route   DELETE /api/profile/education/:eduId
+// @route   DELETE /api/profiles/education/:eduId
 // @desc    Remove an education from a profile
 // @access  Private
 router.delete(
@@ -175,7 +214,7 @@ router.delete(
   }
 )
 
-// @route   DELETE /api/profile/
+// @route   DELETE /api/profiles/
 // @desc    Remove a profile and user
 // @access  Private
 router.delete(

@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { PropTypes } from 'prop-types'
-import { logoutUser } from './../../actions/authActions'
-import { clearCurrentProfile } from './../../actions/profileActions'
+import {PropTypes} from 'prop-types'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {logoutUser} from '../../actions/authActions'
+import {clearCurrentProfile} from '../../actions/profileActions'
+
 /**
  *Displays navigation with login and registration functionality
  *
@@ -15,9 +16,10 @@ class Navbar extends Component {
     event.preventDefault()
     this.props.clearCurrentProfile()
     this.props.logoutUser()
+    window.location = '/'
   }
   render () {
-    const { isAuthenticated, user } = this.props.auth
+    const {isAuthenticated, user} = this.props.auth
 
     const guestLinks = (
       <ul className='navbar-nav ml-auto'>
@@ -33,6 +35,9 @@ class Navbar extends Component {
     const authLinks = (
       <ul className='navbar-nav ml-auto'>
         <li className='nav-item'>
+          <Link className='nav-link' to='/feed'>Your Feed</Link>
+        </li>
+        <li className='nav-item'>
           <Link className='nav-link' to='/dashboard'>Dashboard</Link>
         </li>
         <li className='nav-item'>
@@ -46,7 +51,7 @@ class Navbar extends Component {
               className='rounded-circle'
               src={user.avatar}
               alt={user.name}
-              style={{ width: '25px', marginRight: '5px' }}
+              style={{width: '25px', marginRight: '5px'}}
               title='You must have a Gravatar connected to your email to display an image'
             />
             Logout
@@ -70,7 +75,7 @@ class Navbar extends Component {
           <div className='collapse navbar-collapse' id='mobile-nav'>
             <ul className='navbar-nav mr-auto'>
               <li className='nav-item'>
-                <Link className='nav-link' to='/profiles'>
+                <Link className='nav-link' to='/developers'>
                   {' '}Developers
                 </Link>
               </li>
@@ -91,6 +96,6 @@ Navbar.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth
 })
-export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(
+export default connect(mapStateToProps, {logoutUser, clearCurrentProfile})(
   Navbar
 )
