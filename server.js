@@ -6,7 +6,7 @@ const passport = require('passport')
 const cors = require('cors')
 const path = require('path')
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(cors())
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 
   // Send static files
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    res.sendFile(path.resolve(__dirname, './client/build', 'index.html'))
   })
 }
 
@@ -33,7 +33,7 @@ const db = require('./config/keys').mongoURI
 
 // Connect DB
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(db, {useNewUrlParser: true})
   .then(() => console.log('> Database connected'))
   .catch(err => console.log(err))
 
