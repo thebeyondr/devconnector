@@ -1,27 +1,28 @@
+import jwtDecode from 'jwt-decode'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { logoutUser, setCurrentUser } from './actions/authActions'
+import { clearCurrentProfile } from './actions/profileActions'
 import './App.css'
+import AddEducation from './components/add-credentials/AddEducation'
+import AddExperience from './components/add-credentials/AddExperience'
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
+import PrivateRoute from './components/common/PrivateRoute'
+import CreateProfile from './components/create-profile/CreateProfile'
+import Dashboard from './components/dashboard/Dashboard'
+import EditProfile from './components/edit-profile/EditProfile'
 import Footer from './components/layout/Footer'
 import Landing from './components/layout/Landing'
 import Navbar from './components/layout/Navbar'
-import store from './store'
-import jwtDecode from 'jwt-decode'
-import setAuthHeader from './utils/setAuthHeader'
-import { setCurrentUser, logoutUser } from './actions/authActions'
-import Dashboard from './components/dashboard/Dashboard'
-import { clearCurrentProfile } from './actions/profileActions'
-import PrivateRoute from './components/common/PrivateRoute'
-import CreateProfile from './components/create-profile/CreateProfile'
-import EditProfile from './components/edit-profile/EditProfile'
-import AddExperience from './components/add-credentials/AddExperience'
-import AddEducation from './components/add-credentials/AddEducation'
-import Profiles from './components/profiles/Profiles'
-import Profile from './components/profile/Profile'
 import NotFound from './components/NotFound'
-import Posts from './components/posts/Post/Posts'
+import Posts from './components/posts/Posts'
+import Profile from './components/profile/Profile'
+import Profiles from './components/profiles/Profiles'
+import store from './store'
+import setAuthHeader from './utils/setAuthHeader'
+import Post from './components/post/Post'
 
 if (window.localStorage.jwtToken) {
   const { jwtToken } = window.localStorage
@@ -79,6 +80,7 @@ class App extends Component {
                   component={AddEducation}
                 />
                 <PrivateRoute exact path='/feed' component={Posts} />
+                <PrivateRoute exact path='/post/:id' component={Post} />
               </Switch>
               <Route exact path='/developers' component={Profiles} />
               <Route exact path='/profile/:handle' component={Profile} />

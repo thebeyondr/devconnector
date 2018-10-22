@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import { connect } from 'react-redux'
-import Spinner from './../../common/Spinner'
+import Spinner from '../common/Spinner'
 import PostForm from './PostForm'
-import { getPosts } from '../../../actions/postActions'
+import { getPosts } from '../../actions/postActions'
 import PostFeed from './PostFeed'
 
 class Posts extends Component {

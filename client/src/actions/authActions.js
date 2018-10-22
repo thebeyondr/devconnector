@@ -1,4 +1,4 @@
-import {GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS} from './types'
+import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS } from './types'
 import axios from 'axios'
 import setAuthHeader from './../utils/setAuthHeader'
 import jwtDecode from 'jwt-decode'
@@ -22,7 +22,7 @@ export const loginUser = userData => dispatch => {
     .post('/api/users/login', userData)
     .then(res => {
       // Save token to local storage
-      const {token} = res.data
+      const { token } = res.data
       window.localStorage.setItem('jwtToken', token)
       // Set Authorization Header
       setAuthHeader(token)
@@ -50,8 +50,7 @@ export const setCurrentUser = decoded => {
 // Clear errors
 export const clearErrors = () => {
   return {
-    type: CLEAR_ERRORS,
-    payload: {}
+    type: CLEAR_ERRORS
   }
 }
 
