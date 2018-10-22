@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const cors = require('cors')
+const path = require('path')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -15,6 +16,17 @@ require('./config/passport')(passport)
 const users = require('./users/routes')
 const posts = require('./posts/routes')
 const profiles = require('./profiles/routes')
+
+// If none of these routes are hit, serve static files
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'))
+
+  // Send static files
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 // DB Config
 const db = require('./config/keys').mongoURI
