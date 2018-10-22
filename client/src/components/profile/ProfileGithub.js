@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import secretKeys from '../../secretKeys'
 import { PropTypes } from 'prop-types'
 
 class ProfileGithub extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      clientId: secretKeys.GITHUB_CLIENT_ID,
-      clientSecret: secretKeys.GITHUB_CLIENT_SECRET,
+      clientId: process.env.REACT_APP_GITHUB_CLIENT_ID,
+      clientSecret: process.env.REACT_APP_GITHUB_CLIENT_SECRET,
       count: 5,
       sort: 'created:asc',
       repos: []
